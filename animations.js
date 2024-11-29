@@ -33,38 +33,20 @@ $(document).ready(function() {
     $('#registrationForm').on('submit', function(e) {
         e.preventDefault();
 
-        // Define resultHtml here
-        let formData = $(this).serializeArray(); // Get form data
-        let resultHtml = '<p>Your form has been submitted successfully!</p>'; // Example content
-
-        // Append form details to resultHtml
-        formData.forEach(function(item) {
-            resultHtml += `<p>${item.name}: ${item.value}</p>`; // Display each form field
-        });
-
-        // ... (existing form handling code) ...
+        // Serialize form data
+        let formData = $(this).serializeArray();
 
         // Send form data to PHP for validation
         $.post('process.php', formData, function(response) {
-            console.log(response); // Log the response for debugging
-            if (response.success) { // Check if PHP confirms all fields are filled
-                // Display the result with animation
-                $('#result').html(resultHtml).removeClass('hidden').addClass('visible');
+            // Display the result with animation
+            $('#resultHtml').html(response).removeClass('hidden').addClass('visible');
 
-                // Scroll to the result
-                $('html, body').animate({
-                    scrollTop: $('#result').offset().top
-                }, 1000);
-            } else {
-                // Handle the error case (e.g., show an error message)
-                $('#result').html('<p>Please fill in all fields.</p>').removeClass('hidden').addClass('visible');
-            }
-        }, 'json');
+            // Animate the result display
+            $('#resultHtml').hide().fadeIn(1000); // Fade in effect for the result
 
-        // Reset the form
-        this.reset();
+            // Reset the form
+            $('#registrationForm')[0].reset();
+        });
     });
-
-    // ... (existing escapeHtml function) ...
 });
 

@@ -1,50 +1,36 @@
 <?php
-// Enable error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Set the content type to JSON
-header('Content-Type: application/json');
-
-// Capture any output before our intended JSON response
-ob_start();
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $fullName = $_POST['fullName'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $phone = $_POST['phone'] ?? '';
-    $dob = $_POST['dob'] ?? '';
-    $gender = $_POST['gender'] ?? '';
-    $address = $_POST['address'] ?? '';
+    $Full_Name = $_POST['Full_Name'] ?? '';
+    $Email = $_POST['Email'] ?? '';
+    $Phone = $_POST['Phone'] ?? '';
+    $DOB = $_POST['DOB'] ?? '';
+    $Gender = $_POST['Gender'] ?? '';
+    $Address = $_POST['Address'] ?? '';
 
-    // Debugging: Log the received POST data
-    error_log(print_r($_POST, true)); // This will log the POST data to the server's error log
+    // Log the received data for debugging
+    error_log(print_r($_POST, true));
 
-    if (empty($fullName) || empty($email) || empty($phone) || empty($dob) || empty($gender) || empty($address)) {
-        $response = ['success' => false, 'message' => 'All fields are required'];
+    // Prepare the result HTML
+    $resultHtml = "<div class='result-message'>";
+    $resultHtml .= "<h2>Form submitted successfully by $Full_Name.</h2>";
+    $resultHtml .= "<p><strong>Details:</strong></p>";
+    $resultHtml .= "<ul>";
+    $resultHtml .= "<li><strong>Full Name:</strong> $Full_Name</li>";
+    $resultHtml .= "<li><strong>Email:</strong> $Email</li>";
+    $resultHtml .= "<li><strong>Phone:</strong> $Phone</li>";
+    $resultHtml .= "<li><strong>DOB:</strong> $DOB</li>";
+    $resultHtml .= "<li><strong>Gender:</strong> $Gender</li>";
+    $resultHtml .= "<li><strong>Address:</strong> $Address</li>";
+    $resultHtml .= "</ul>";
+    $resultHtml .= "</div>";
+
+    // Example of further processing
+    if (!empty($Full_Name) && !empty($Email)) {
+        echo $resultHtml; // Return the styled HTML
     } else {
-        $html = "
-            <h2>Registration Successful</h2>
-            <p><strong>Full Name:</strong> " . htmlspecialchars($fullName) . "</p>
-            <p><strong>Email:</strong> " . htmlspecialchars($email) . "</p>
-            <p><strong>Phone:</strong> " . htmlspecialchars($phone) . "</p>
-            <p><strong>Date of Birth:</strong> " . htmlspecialchars($dob) . "</p>
-            <p><strong>Gender:</strong> " . htmlspecialchars($gender) . "</p>
-            <p><strong>Address:</strong> " . htmlspecialchars($address) . "</p>
-        ";
-
-        $response = ['success' => true, 'html' => $html];
+        echo "<p>Please fill in all fields.</p>";
     }
 } else {
-    $response = ['success' => false, 'message' => 'Invalid request method'];
+    echo "<p>Invalid request method.</p>";
 }
-
-// Capture any unexpected output
-$output = ob_get_clean();
-
-if (!empty($output)) {
-    $response = ['success' => false, 'message' => 'Unexpected output: ' . $output];
-}
-
-// Encode the response as JSON
-echo json_encode($response);
+?>

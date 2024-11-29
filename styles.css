@@ -114,6 +114,50 @@ button {
     transform: scale(1);
 }
 
-.hidden {
-    display: none;
+
+.result-message {
+    background-color: #f9f9f9;
+    border: 2px solid #3498db;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.result-message h2 {
+    color: #3498db;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.result-message p {
+    font-size: 18px;
+    color: #333;
+}
+
+.result-message ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.result-message li {
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #e7f3fe;
+    border-left: 5px solid #3498db;
+    transition: transform 0.3s;
+}
+
+.result-message li:hover {
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
